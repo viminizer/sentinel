@@ -9,7 +9,7 @@ export const DEFAULT_VALUES = {
   MAX_BATCH_SIZE: 10,
   RATE_LIMIT_PER_SECOND: 25,
   DOCKER_SOCKET_PATH: '/var/run/docker.sock',
-  PORT: 3000,
+  PORT: 7777,
 } as const;
 
 export const LOG_PATTERNS = {

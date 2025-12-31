@@ -38,6 +38,8 @@ fi
 
 source .env
 
+PORT=${PORT:-7777}
+
 if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ] || [ -z "$DOCKER_CONTAINER_NAME" ]; then
     error "Missing required environment variables: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, DOCKER_CONTAINER_NAME"
 fi
@@ -60,10 +62,10 @@ if docker compose ps | grep -q "Up"; then
     docker compose ps
     echo ""
 
-    if curl -s http://localhost:3000/health/live &>/dev/null; then
+    if curl -s http://localhost:${PORT}/health/live &>/dev/null; then
         log "Health check passed"
         echo ""
-        curl -s http://localhost:3000/health/stats | python3 -m json.tool 2>/dev/null || curl -s http://localhost:3000/health/stats
+        curl -s http://localhost:${PORT}/health/stats | python3 -m json.tool 2>/dev/null || curl -s http://localhost:${PORT}/health/stats
     else
         warn "Health endpoint not responding yet"
     fi

@@ -11,7 +11,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=${PORT:-7777}
       - DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_NAME}
       - DOCKER_SOCKET_PATH=/var/run/docker.sock
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
@@ -22,9 +22,9 @@ services:
       - MAX_BATCH_SIZE=${MAX_BATCH_SIZE:-10}
       - RATE_LIMIT_PER_SECOND=${RATE_LIMIT_PER_SECOND:-25}
     ports:
-      - "3000:3000"
+      - "${PORT:-7777}:${PORT:-7777}"
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health/live"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${PORT:-7777}/health/live"]
       interval: 30s
       timeout: 10s
       retries: 3
