@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  sentinel-logger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: sentinel-logger-dev
+    command: sh -c "pnpm run start:dev"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_NAME:-test-app}
+      - DOCKER_SOCKET_PATH=/var/run/docker.sock
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - TELEGRAM_TOPIC_ID=${TELEGRAM_TOPIC_ID:-}
+      - LOG_LEVELS=${LOG_LEVELS:-error,warn,debug}
+      - BATCH_INTERVAL_MS=${BATCH_INTERVAL_MS:-3000}
+      - MAX_BATCH_SIZE=${MAX_BATCH_SIZE:-5}
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    networks:
+      - sentinel-network
+
+  test-app:
+    image: alpine
+    container_name: test-app
+    command: >
+      sh -c "
+        while true; do
+          echo '[INFO] Application running normally';
+          sleep 2;
+          echo '[DEBUG] Processing request...';
+          sleep 1;
+          echo '[WARN] High memory usage detected';
+          sleep 3;
+          echo '[ERROR] Database connection failed' >&2;
+          sleep 5;
+        done
+      "
+    networks:
+      - sentinel-network
+
+networks:
+  sentinel-network:
+    driver: bridge

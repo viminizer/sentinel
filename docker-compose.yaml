@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  sentinel-logger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentinel-logger
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_NAME}
+      - DOCKER_SOCKET_PATH=/var/run/docker.sock
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - TELEGRAM_TOPIC_ID=${TELEGRAM_TOPIC_ID:-}
+      - LOG_LEVELS=${LOG_LEVELS:-error,warn,debug}
+      - BATCH_INTERVAL_MS=${BATCH_INTERVAL_MS:-5000}
+      - MAX_BATCH_SIZE=${MAX_BATCH_SIZE:-10}
+      - RATE_LIMIT_PER_SECOND=${RATE_LIMIT_PER_SECOND:-25}
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - sentinel-network
+
+networks:
+  sentinel-network:
+    driver: bridge
