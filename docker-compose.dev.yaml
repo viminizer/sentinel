@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   sentinel-logger:
     build:
@@ -8,6 +6,8 @@ services:
       target: builder
     container_name: sentinel-logger-dev
     command: sh -c "pnpm run start:dev"
+    env_file:
+      - .env
     volumes:
       - .:/app
       - /app/node_modules
