@@ -40,8 +40,8 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
     await this.validateBotConnection();
   }
 
-  async onModuleDestroy(): Promise<void> {
-    this.bot.stop('Application shutdown');
+  onModuleDestroy(): void {
+    // Keep connection alive until process exits for shutdown notifications
   }
 
   private async validateBotConnection(): Promise<void> {
