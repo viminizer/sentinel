@@ -2,7 +2,7 @@
 
 # Sentinel
 
-**Production-Ready Docker Container Log Monitoring with Telegram Alerts**
+**Docker Container Log Monitoring with Telegram Alerts**
 
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![NestJS](https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
@@ -18,7 +18,7 @@
 
 ## Overview
 
-Sentinel is an enterprise-grade log monitoring service that streams Docker container logs in real-time and delivers intelligent notifications to Telegram. Built with NestJS and designed for production environments, it provides reliable alerting with smart batching, rate limiting, and automatic recovery mechanisms.
+Sentinel is a log monitoring service that streams Docker container logs in real-time and delivers intelligent notifications to Telegram. Built with NestJS and designed for production environments, it provides reliable alerting with smart batching, rate limiting, and automatic recovery mechanisms.
 
 ### Why Sentinel?
 
@@ -34,14 +34,14 @@ Sentinel is an enterprise-grade log monitoring service that streams Docker conta
 
 ### Core Capabilities
 
-| Feature | Description |
-|---------|-------------|
-| **Real-time Streaming** | Direct connection to Docker daemon via Unix socket |
+| Feature                 | Description                                               |
+| ----------------------- | --------------------------------------------------------- |
+| **Real-time Streaming** | Direct connection to Docker daemon via Unix socket        |
 | **Log Level Filtering** | Filter by ERROR, WARN, DEBUG, INFO with pattern detection |
-| **Smart Batching** | Configurable batch intervals and sizes reduce API calls |
-| **Rate Limiting** | Token bucket algorithm ensures Telegram API compliance |
-| **Auto-Reconnection** | Exponential backoff with configurable retry attempts |
-| **Graceful Lifecycle** | Startup/shutdown notifications, signal handling |
+| **Smart Batching**      | Configurable batch intervals and sizes reduce API calls   |
+| **Rate Limiting**       | Token bucket algorithm ensures Telegram API compliance    |
+| **Auto-Reconnection**   | Exponential backoff with configurable retry attempts      |
+| **Graceful Lifecycle**  | Startup/shutdown notifications, signal handling           |
 
 ### Advanced Features
 
@@ -57,21 +57,21 @@ Sentinel is an enterprise-grade log monitoring service that streams Docker conta
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                           SENTINEL                                   │
+│                           SENTINEL                                  │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌──────────────┐    Events    ┌──────────────┐    HTTP    ┌──────┐│
-│  │    Docker    │─────────────▶│  Processor   │───────────▶│  TG  ││
-│  │   Service    │              │   Service    │            │ API  ││
-│  └──────┬───────┘              └──────────────┘            └──────┘│
+│                                                                     │
+│  ┌──────────────┐    Events    ┌──────────────┐    HTTP    ┌──────┐ │
+│  │    Docker    │─────────────▶│  Processor   │───────────▶│  TG  │ │
+│  │   Service    │              │   Service    │            │ API  │ │
+│  └──────┬───────┘              └──────────────┘            └──────┘ │
 │         │                             │                             │
-│         │ /var/run/docker.sock        │ Batching & Filtering       │
+│         │ /var/run/docker.sock        │ Batching & Filtering        │
 │         ▼                             ▼                             │
-│  ┌──────────────┐              ┌──────────────┐                    │
-│  │   Docker     │              │    Health    │◀─── /health/*      │
-│  │   Daemon     │              │  Controller  │                    │
-│  └──────────────┘              └──────────────┘                    │
-│                                                                      │
+│  ┌──────────────┐              ┌──────────────┐                     │
+│  │   Docker     │              │    Health    │◀─── /health/*       │
+│  │   Daemon     │              │  Controller  │                     │
+│  └──────────────┘              └──────────────┘                     │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -97,7 +97,7 @@ Sentinel is an enterprise-grade log monitoring service that streams Docker conta
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/sentinel.git
+git clone https://github.com/viminizer/sentinel.git
 cd sentinel
 
 # Configure environment
@@ -138,34 +138,35 @@ docker compose logs -f sentinel
 
 ### Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|:--------:|---------|-------------|
-| `DOCKER_CONTAINER_NAME` | **Yes** | - | Name of the container to monitor |
-| `TELEGRAM_BOT_TOKEN` | **Yes** | - | Bot token from [@BotFather](https://t.me/BotFather) |
-| `TELEGRAM_CHAT_ID` | **Yes** | - | Target chat/group ID |
-| `TELEGRAM_TOPIC_ID` | No | - | Topic ID for forum-type groups |
-| `LOG_LEVELS` | No | `error,warn,debug` | Comma-separated levels to capture |
-| `BATCH_INTERVAL_MS` | No | `5000` | Batch timeout in milliseconds |
-| `MAX_BATCH_SIZE` | No | `10` | Maximum logs per batch |
-| `RATE_LIMIT_PER_SECOND` | No | `25` | Telegram API rate limit |
-| `PORT` | No | `7777` | HTTP server port |
-| `NODE_ENV` | No | `production` | Environment mode |
-| `DOCKER_SOCKET_PATH` | No | `/var/run/docker.sock` | Docker socket path |
+| Variable                | Required | Default                | Description                                         |
+| ----------------------- | :------: | ---------------------- | --------------------------------------------------- |
+| `DOCKER_CONTAINER_NAME` | **Yes**  | -                      | Name of the container to monitor                    |
+| `TELEGRAM_BOT_TOKEN`    | **Yes**  | -                      | Bot token from [@BotFather](https://t.me/BotFather) |
+| `TELEGRAM_CHAT_ID`      | **Yes**  | -                      | Target chat/group ID                                |
+| `TELEGRAM_TOPIC_ID`     |    No    | -                      | Topic ID for forum-type groups                      |
+| `LOG_LEVELS`            |    No    | `error,warn,debug`     | Comma-separated levels to capture                   |
+| `BATCH_INTERVAL_MS`     |    No    | `5000`                 | Batch timeout in milliseconds                       |
+| `MAX_BATCH_SIZE`        |    No    | `10`                   | Maximum logs per batch                              |
+| `RATE_LIMIT_PER_SECOND` |    No    | `25`                   | Telegram API rate limit                             |
+| `PORT`                  |    No    | `7777`                 | HTTP server port                                    |
+| `NODE_ENV`              |    No    | `production`           | Environment mode                                    |
+| `DOCKER_SOCKET_PATH`    |    No    | `/var/run/docker.sock` | Docker socket path                                  |
 
 ### Log Levels
 
 Sentinel uses pattern-based detection to classify log levels:
 
-| Level | Detection Patterns |
-|-------|-------------------|
+| Level   | Detection Patterns                                                                    |
+| ------- | ------------------------------------------------------------------------------------- |
 | `error` | `error`, `exception`, `fatal`, `critical`, `fail`, `failed`, `failure`, stderr output |
-| `warn` | `warn`, `warning`, `caution`, `alert` |
-| `debug` | `debug`, `trace`, `verbose` |
-| `info` | Default fallback for unmatched patterns |
+| `warn`  | `warn`, `warning`, `caution`, `alert`                                                 |
+| `debug` | `debug`, `trace`, `verbose`                                                           |
+| `info`  | Default fallback for unmatched patterns                                               |
 
 ### Example Configurations
 
 **Minimal (Errors Only)**
+
 ```env
 DOCKER_CONTAINER_NAME=api-server
 TELEGRAM_BOT_TOKEN=your-token
@@ -174,6 +175,7 @@ LOG_LEVELS=error
 ```
 
 **High-Volume Application**
+
 ```env
 DOCKER_CONTAINER_NAME=web-app
 TELEGRAM_BOT_TOKEN=your-token
@@ -185,6 +187,7 @@ RATE_LIMIT_PER_SECOND=15
 ```
 
 **Forum Group with Topic**
+
 ```env
 DOCKER_CONTAINER_NAME=microservice
 TELEGRAM_BOT_TOKEN=your-token
@@ -206,6 +209,7 @@ All endpoints are served under the `/health` prefix.
 Full health check with all component statuses.
 
 **Response:**
+
 ```json
 {
   "status": "ok",
@@ -236,6 +240,7 @@ Full health check with all component statuses.
 Kubernetes liveness probe. Returns 200 if the process is running.
 
 **Response:**
+
 ```json
 {
   "status": "ok"
@@ -247,6 +252,7 @@ Kubernetes liveness probe. Returns 200 if the process is running.
 Kubernetes readiness probe. Returns 200 only when fully operational.
 
 **Response:**
+
 ```json
 {
   "status": "ready",
@@ -262,6 +268,7 @@ Kubernetes readiness probe. Returns 200 only when fully operational.
 Detailed processing statistics.
 
 **Response:**
+
 ```json
 {
   "processor": {
@@ -299,9 +306,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - "7777:7777"
+      - '7777:7777'
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7777/health/live"]
+      test: ['CMD', 'wget', '-q', '--spider', 'http://localhost:7777/health/live']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -387,16 +394,16 @@ docker compose -f docker-compose.dev.yaml up
 
 ### Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `pnpm run build` | Compile TypeScript to JavaScript |
-| `pnpm run start` | Start production server |
-| `pnpm run start:dev` | Start with hot reload |
-| `pnpm run start:debug` | Start with debugger attached |
-| `pnpm run lint` | Run ESLint with auto-fix |
-| `pnpm run format` | Format code with Prettier |
-| `pnpm run test` | Run unit tests |
-| `pnpm run test:cov` | Run tests with coverage |
+| Script                 | Description                      |
+| ---------------------- | -------------------------------- |
+| `pnpm run build`       | Compile TypeScript to JavaScript |
+| `pnpm run start`       | Start production server          |
+| `pnpm run start:dev`   | Start with hot reload            |
+| `pnpm run start:debug` | Start with debugger attached     |
+| `pnpm run lint`        | Run ESLint with auto-fix         |
+| `pnpm run format`      | Format code with Prettier        |
+| `pnpm run test`        | Run unit tests                   |
+| `pnpm run test:cov`    | Run tests with coverage          |
 
 ### Project Structure
 
@@ -431,6 +438,7 @@ docker compose -f docker-compose.dev.yaml up
 ```
 
 This starts:
+
 - Sentinel in development mode with hot reload
 - A test container emitting INFO, DEBUG, WARN, and ERROR logs
 
@@ -498,12 +506,14 @@ For rootless Docker, adjust the socket path accordingly.
 #### Telegram Bot Not Sending Messages
 
 **Checklist:**
+
 1. Bot token format: `123456789:ABCdef...`
 2. Bot added to the target chat/group
 3. For groups, bot must have message permissions
 4. Chat ID format: Negative for groups (`-100...`)
 
 Test with curl:
+
 ```bash
 curl -X POST "https://api.telegram.org/bot<TOKEN>/sendMessage" \
   -H "Content-Type: application/json" \
