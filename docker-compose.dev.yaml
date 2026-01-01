@@ -1,10 +1,10 @@
 services:
-  sentinel-logger:
+  sentinel:
     build:
       context: .
       dockerfile: Dockerfile
       target: builder
-    container_name: sentinel-logger-dev
+    container_name: sentinel-dev
     command: sh -c "pnpm run start:dev"
     env_file:
       - .env

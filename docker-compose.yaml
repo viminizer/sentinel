@@ -1,9 +1,9 @@
 services:
-  sentinel-logger:
+  sentinel:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: sentinel-logger
+    container_name: sentinel
     restart: unless-stopped
     user: root
     env_file:

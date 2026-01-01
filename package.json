@@ -1,5 +1,5 @@
 {
-  "name": "sentinel-logger",
+  "name": "sentinel",
   "version": "1.0.0",
   "description": "Production-ready Docker container log monitoring service with Telegram notifications",
   "author": "Sentinel",
