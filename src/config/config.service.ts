@@ -36,6 +36,14 @@ export class ConfigService {
       docker: {
         containerName: process.env.DOCKER_CONTAINER_NAME,
         socketPath: process.env.DOCKER_SOCKET_PATH || DEFAULT_VALUES.DOCKER_SOCKET_PATH,
+        maxReconnectAttempts: this.parseNumber(
+          process.env.MAX_RECONNECT_ATTEMPTS,
+          DEFAULT_VALUES.MAX_RECONNECT_ATTEMPTS,
+        ),
+        reconnectDelayMs: this.parseNumber(
+          process.env.RECONNECT_DELAY_MS,
+          DEFAULT_VALUES.RECONNECT_DELAY_MS,
+        ),
       },
       telegram: {
         botToken: process.env.TELEGRAM_BOT_TOKEN,

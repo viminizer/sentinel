@@ -21,8 +21,6 @@ export class DockerService implements OnModuleInit, OnModuleDestroy {
   private isStreaming = false;
   private shouldReconnect = true;
   private reconnectAttempts = 0;
-  private readonly maxReconnectAttempts = 10;
-  private readonly reconnectDelayMs = 5000;
   private wasDisconnected = false;
 
   constructor(
@@ -224,16 +222,17 @@ export class DockerService implements OnModuleInit, OnModuleDestroy {
     if (!this.shouldReconnect) return;
 
     this.reconnectAttempts++;
+    const { maxReconnectAttempts, reconnectDelayMs } = this.configService.docker;
 
-    if (this.reconnectAttempts > this.maxReconnectAttempts) {
+    if (this.reconnectAttempts > maxReconnectAttempts) {
       this.logger.error('Max reconnection attempts reached. Giving up.');
       this.eventEmitter.emit(DOCKER_EVENTS.STREAM_FAILED);
       return;
     }
 
-    const delay = this.reconnectDelayMs * Math.min(this.reconnectAttempts, 5);
+    const delay = reconnectDelayMs * Math.min(this.reconnectAttempts, 5);
     this.logger.warn(
-      `Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay}ms`,
+      `Attempting to reconnect (${this.reconnectAttempts}/${maxReconnectAttempts}) in ${delay}ms`,
     );
 
     await sleep(delay);

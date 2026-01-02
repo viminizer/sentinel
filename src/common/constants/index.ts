@@ -10,6 +10,8 @@ export const DEFAULT_VALUES = {
   RATE_LIMIT_PER_SECOND: 25,
   DOCKER_SOCKET_PATH: '/var/run/docker.sock',
   PORT: 7777,
+  MAX_RECONNECT_ATTEMPTS: 10,
+  RECONNECT_DELAY_MS: 5000,
 } as const;
 
 export const LOG_PATTERNS = {

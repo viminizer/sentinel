@@ -7,6 +7,8 @@ const logLevelSchema = z.nativeEnum(LogLevel);
 const dockerConfigSchema = z.object({
   containerName: z.string().min(1, 'Container name is required'),
   socketPath: z.string().default(DEFAULT_VALUES.DOCKER_SOCKET_PATH),
+  maxReconnectAttempts: z.number().int().positive().default(DEFAULT_VALUES.MAX_RECONNECT_ATTEMPTS),
+  reconnectDelayMs: z.number().int().positive().default(DEFAULT_VALUES.RECONNECT_DELAY_MS),
 });
 
 const telegramConfigSchema = z.object({
